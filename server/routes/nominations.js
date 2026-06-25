@@ -25,7 +25,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: multer.memoryStorage(),
   fileFilter,
-  limits: { fileSize: 2 * 1024 * 1024 } // 2MB
+  limits: { fileSize: 4 * 1024 * 1024 } // 4MB
 });
 
 // Helper: upload buffer to Cloudinary
@@ -101,7 +101,7 @@ router.post('/', upload.single('photo'), async (req, res) => {
 router.use((err, req, res, next) => {
   if (err instanceof multer.MulterError) {
     if (err.code === 'LIMIT_FILE_SIZE') {
-      return res.status(400).json({ success: false, message: 'Photo must be under 2MB.' });
+      return res.status(400).json({ success: false, message: 'Photo must be under 4MB.' });
     }
     return res.status(400).json({ success: false, message: err.message });
   }

@@ -107,9 +107,9 @@
       return;
     }
 
-    // Validate size (max 2MB)
-    if (file.size > 2097152) {
-      showError('photo', 'Photo must be under 2MB');
+    // Validate size (max 4MB)
+    if (file.size > 4194304) {
+      showError('photo', 'Photo must be under 4MB');
       photoInput.value = '';
       return;
     }
