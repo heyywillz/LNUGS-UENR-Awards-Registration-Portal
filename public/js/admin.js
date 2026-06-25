@@ -44,6 +44,7 @@
             const data = await res.json();
             allNominations = data.data || data.nominations || data || [];
             filteredNominations = [...allNominations];
+            populateCategoryFilter();
             return true;
         } catch (err) {
             window.location.href = '/admin-login.html';
@@ -334,8 +335,59 @@
     };
 
     // --------------------------------------------------------
-    // Search
+    // Search and Filter
     // --------------------------------------------------------
+    function populateCategoryFilter() {
+        var filterSelect = document.getElementById('category-filter');
+        if (!filterSelect) return;
+        
+        var categories = [];
+        allNominations.forEach(function(n) {
+            var cat = n.category;
+            if (cat && categories.indexOf(cat) === -1) {
+                categories.push(cat);
+            }
+        });
+        
+        filterSelect.innerHTML = '<option value="">All Categories</option>';
+        categories.sort().forEach(function(cat) {
+            var option = document.createElement('option');
+            option.value = cat;
+            option.textContent = cat;
+            filterSelect.appendChild(option);
+        });
+        
+        filterSelect.addEventListener('change', applyFiltersAndSearch);
+    }
+
+    function applyFiltersAndSearch() {
+        var searchInput = document.getElementById('search-input');
+        var query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+        
+        var filterSelect = document.getElementById('category-filter');
+        var selectedCategory = filterSelect ? filterSelect.value : '';
+
+        filteredNominations = allNominations.filter(function (nom) {
+            var matchSearch = true;
+            if (query) {
+                var name = (nom.full_name || nom.fullName || '').toLowerCase();
+                var email = (nom.email || '').toLowerCase();
+                var category = (nom.category || '').toLowerCase();
+                matchSearch = name.indexOf(query) !== -1 || email.indexOf(query) !== -1 || category.indexOf(query) !== -1;
+            }
+            
+            var matchCategory = true;
+            if (selectedCategory) {
+                matchCategory = nom.category === selectedCategory;
+            }
+            
+            return matchSearch && matchCategory;
+        });
+
+        currentPage = 1;
+        renderNominations();
+    }
+
     function setupSearch() {
         var searchInput = document.getElementById('search-input');
         if (!searchInput) return;
@@ -344,21 +396,7 @@
         searchInput.addEventListener('input', function () {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(function () {
-                var query = searchInput.value.trim().toLowerCase();
-                if (!query) {
-                    filteredNominations = allNominations.slice();
-                } else {
-                    filteredNominations = allNominations.filter(function (nom) {
-                        var name = (nom.full_name || nom.fullName || '').toLowerCase();
-                        var email = (nom.email || '').toLowerCase();
-                        var category = (nom.category || '').toLowerCase();
-                        return name.indexOf(query) !== -1
-                            || email.indexOf(query) !== -1
-                            || category.indexOf(query) !== -1;
-                    });
-                }
-                currentPage = 1;
-                renderNominations();
+                applyFiltersAndSearch();
             }, 300);
         });
     }
@@ -436,17 +474,7 @@
                 const nomsData = await nomsRes.json();
                 allNominations = nomsData.data || nomsData.nominations || nomsData || [];
                 // Re-apply current search filter
-                const query = document.getElementById('search-input') ? document.getElementById('search-input').value.toLowerCase() : '';
-                if (query) {
-                    filteredNominations = allNominations.filter(function (n) {
-                        return (n.full_name || n.fullName || '').toLowerCase().includes(query)
-                            || (n.email || '').toLowerCase().includes(query)
-                            || (n.category || '').toLowerCase().includes(query);
-                    });
-                } else {
-                    filteredNominations = [...allNominations];
-                }
-                renderNominations();
+                applyFiltersAndSearch();
             } else {
                 alert('Error: ' + (data.message || 'Failed to delete nomination.'));
             }

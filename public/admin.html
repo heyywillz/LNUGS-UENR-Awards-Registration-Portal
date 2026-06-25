@@ -105,6 +105,15 @@
                     <span id="nominations-count" class="text-sm ml-2" style="color: #6b7280;"></span>
                 </div>
                 <div class="flex flex-col sm:flex-row w-full sm:w-auto items-stretch sm:items-center gap-3 mt-3 sm:mt-0">
+                    <select
+                        id="category-filter"
+                        class="w-full sm:w-auto border px-3 py-2 text-sm outline-none transition-all duration-200 bg-white"
+                        style="border-radius: 0.375rem; border-color: #d1d5db; min-width: 200px;"
+                        onfocus="this.style.borderColor='#C0111F'; this.style.boxShadow='0 0 0 3px rgba(192,17,31,0.15)';"
+                        onblur="this.style.borderColor='#d1d5db'; this.style.boxShadow='none';"
+                    >
+                        <option value="">All Categories</option>
+                    </select>
                     <input
                         type="text"
                         id="search-input"
