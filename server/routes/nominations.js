@@ -3,15 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 const { v2: cloudinary } = require('cloudinary');
-const rateLimit = require('express-rate-limit');
 const pool = require('../db');
-
-// Submission Rate Limiter (Max 5 submissions per 15 minutes)
-const submissionLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  message: { success: false, message: 'You have submitted too many nominations. Please try again later.' }
-});
 
 // Configure Cloudinary
 cloudinary.config({
@@ -58,7 +50,7 @@ function uploadToCloudinary(fileBuffer, fileName) {
 }
 
 // POST /api/nominations
-router.post('/', submissionLimiter, upload.single('photo'), async (req, res) => {
+router.post('/', upload.single('photo'), async (req, res) => {
   try {
     const { fullName, category, categoryGroup, bio, mobile, email } = req.body;
 

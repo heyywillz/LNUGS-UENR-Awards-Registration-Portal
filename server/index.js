@@ -2,31 +2,11 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
-const helmet = require('helmet');
-const cors = require('cors');
-const xss = require('xss-clean');
-const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Security Middleware
-app.use(helmet({
-  contentSecurityPolicy: false,
-  crossOriginEmbedderPolicy: false
-}));
-app.use(cors());
-app.use(xss());
-
-// Global Rate Limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window`
-  message: 'Too many requests from this IP, please try again after 15 minutes'
-});
-app.use(limiter);
-
-// Parse JSON and url-encoded data
+// Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

@@ -2,15 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const ExcelJS = require('exceljs');
-const rateLimit = require('express-rate-limit');
 const pool = require('../db');
-
-// Login Rate Limiter (Max 5 attempts per 15 minutes)
-const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 5,
-  message: { success: false, message: 'Too many login attempts, please try again after 15 minutes.' }
-});
 
 // Auth middleware
 function requireAuth(req, res, next) {
@@ -21,7 +13,7 @@ function requireAuth(req, res, next) {
 }
 
 // POST /api/admin/login
-router.post('/login', loginLimiter, async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const { username, password } = req.body;
 
