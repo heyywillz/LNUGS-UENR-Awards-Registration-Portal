@@ -1,0 +1,233 @@
+/* ============================================
+   LNUGS-UENR Excellence Awards 2026
+   Registration Portal — Custom Styles
+   ============================================ */
+
+/* ----- Design Tokens ----- */
+:root {
+  --color-primary: #C0111F;
+  --color-primary-dark: #8B0000;
+  --color-white: #FFFFFF;
+  --color-bg: #F5F5F5;
+  --color-surface: #FFFFFF;
+  --color-text: #0D0D0D;
+  --color-muted: #6B7280;
+  --color-border: #E5E7EB;
+  --color-badge-open: #16A34A;
+}
+
+/* ----- Base ----- */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Satoshi', sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ----- Form Labels ----- */
+.form-label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: var(--color-text);
+}
+
+/* ----- Inputs, Selects, Textareas ----- */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+input,
+select,
+textarea {
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+/* ----- Upload Area ----- */
+.upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed var(--color-border);
+  border-radius: 0.5rem;
+  padding: 2.5rem 1.5rem;
+  cursor: pointer;
+  transition: border-color 200ms ease, background-color 200ms ease;
+  background: var(--color-bg);
+  text-align: center;
+}
+
+.upload-area:hover {
+  border-color: var(--color-primary);
+  background: rgba(192, 17, 31, 0.03);
+}
+
+.upload-area.has-preview {
+  border-style: solid;
+  border-color: var(--color-border);
+  background: var(--color-white);
+}
+
+/* ----- Error Messages ----- */
+.error-message {
+  color: #DC2626;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: none;
+}
+
+.error-message.visible {
+  display: block;
+}
+
+/* ----- Field Error State ----- */
+.field-error input,
+.field-error select,
+.field-error textarea {
+  border-color: #DC2626;
+}
+
+.field-error .upload-area {
+  border-color: #DC2626;
+}
+
+/* ----- Buttons ----- */
+button {
+  transition: all 200ms ease;
+  cursor: pointer;
+}
+
+/* ----- Section Icon ----- */
+.section-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgba(192, 17, 31, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ----- Requirement Item ----- */
+.requirement-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ----- Status Badge ----- */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  background: var(--color-badge-open);
+  color: var(--color-white);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.625rem;
+  border-radius: 999px;
+}
+
+/* ----- Vertical Text on Banner ----- */
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* ----- Card Hover ----- */
+.card-hover {
+  transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+.card-hover:hover {
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ----- Breadcrumb Bar ----- */
+.breadcrumb-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.625rem 1.5rem;
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* ----- Left Panel ----- */
+.left-panel {
+  background: var(--color-bg);
+}
+
+/* ----- Field Group ----- */
+.field-group {
+  position: relative;
+}
+
+/* ----- Responsive ----- */
+@media (max-width: 768px) {
+  .left-panel {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .left-panel {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100vh;
+    overflow-y: auto;
+  }
+}
+
+/* ----- Scrollbar Styling (WebKit) ----- */
+.left-panel::-webkit-scrollbar {
+  width: 4px;
+}
+
+.left-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.left-panel::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 999px;
+}
+
+/* ----- Selection Color ----- */
+::selection {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* ----- Placeholder ----- */
+::placeholder {
+  color: #9CA3AF;
+  font-size: 0.875rem;
+}

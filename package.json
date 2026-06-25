@@ -1,0 +1,23 @@
+{
+  "name": "lnugs-uenr-excellence-awards-2026",
+  "version": "1.0.0",
+  "description": "LNUGS-UENR Excellence Awards 2026 Registration Portal",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "seed:admin": "node server/seed.js",
+    "init:db": "node server/initdb.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cloudinary": "^2.10.0",
+    "dotenv": "^16.4.7",
+    "exceljs": "^4.4.0",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "multer": "^1.4.5-lts.1",
+    "pg": "^8.13.1",
+    "uuid": "^11.1.0"
+  }
+}
