@@ -190,10 +190,6 @@
 
 
       case 'bio':
-        if (!value || value.length < 20) {
-          showError('bio', 'Bio is required (minimum 20 characters)');
-          return false;
-        }
         clearError('bio');
         return true;
 

@@ -55,16 +55,12 @@ router.post('/', upload.single('photo'), async (req, res) => {
     const { fullName, category, categoryGroup, bio, mobile, email } = req.body;
 
     // Server-side validation
-    if (!fullName || !category || !categoryGroup || !bio || !mobile || !email) {
-      return res.status(400).json({ success: false, message: 'All fields are required.' });
+    if (!fullName || !category || !categoryGroup || !mobile || !email) {
+      return res.status(400).json({ success: false, message: 'All required fields must be provided.' });
     }
 
     if (fullName.length < 3) {
       return res.status(400).json({ success: false, message: 'Full name must be at least 3 characters.' });
-    }
-
-    if (bio.length < 20) {
-      return res.status(400).json({ success: false, message: 'Bio must be at least 20 characters.' });
     }
 
     if (!/^0\d{9}$/.test(mobile)) {
