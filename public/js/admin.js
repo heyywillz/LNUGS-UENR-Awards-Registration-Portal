@@ -231,7 +231,7 @@
                 var rowIdx = start + i + 1;
                 var photoHtml;
                 if (nom.photo_url) {
-                    photoHtml = '<img src="' + escapeHtml(nom.photo_url) + '" width="40" height="40" class="rounded-full" style="object-fit: cover;" alt="">';
+                    photoHtml = '<img src="' + escapeHtml(nom.photo_url) + '" width="40" height="40" class="rounded-full cursor-pointer hover:opacity-80 transition-opacity" style="object-fit: cover;" alt="" onclick="window.openImageModal(\'' + escapeHtml(nom.photo_url) + '\')">';
                 } else {
                     photoHtml = '<div class="rounded-full flex items-center justify-center text-xs text-white" style="width:40px;height:40px;background-color:#C0111F;font-weight:600;">'
                         + getInitials(nom.full_name || nom.fullName || '')
@@ -474,6 +474,25 @@
         } catch (err) {
             console.error(err);
             alert('An error occurred while deleting the nomination.');
+        }
+    };
+
+    // --------------------------------------------------------
+    // Image Modal Logic
+    // --------------------------------------------------------
+    window.openImageModal = function(url) {
+        var modal = document.getElementById('image-modal');
+        var modalImg = document.getElementById('modal-image');
+        if (modal && modalImg) {
+            modalImg.src = url;
+            modal.classList.remove('hidden');
+        }
+    };
+
+    window.closeImageModal = function() {
+        var modal = document.getElementById('image-modal');
+        if (modal) {
+            modal.classList.add('hidden');
         }
     };
 
