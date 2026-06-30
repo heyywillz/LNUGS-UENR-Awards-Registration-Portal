@@ -12,7 +12,7 @@
 
     // Chart instances
     let categoryGroupChartInstance = null;
-    let dailyChartInstance = null;
+    let topCategoriesPieChartInstance = null;
 
     // --------------------------------------------------------
     // Date Formatting
@@ -86,7 +86,7 @@
 
             // Charts
             renderCategoryGroupChart(stats.byGroup || []);
-            renderDailyChart(stats.dailySubmissions || []);
+            renderTopCategoriesPieChart(stats.topCategories || []);
 
             // Top categories table
             renderTopCategories(stats.topCategories || [], stats.totalNominations || 0);
@@ -142,46 +142,39 @@
 
 
 
-    function renderDailyChart(dailySubmissions) {
-        const ctx = document.getElementById('dailyChart');
+    function renderTopCategoriesPieChart(topCategories) {
+        const ctx = document.getElementById('topCategoriesPieChart');
         if (!ctx) return;
 
-        if (dailyChartInstance) dailyChartInstance.destroy();
+        if (topCategoriesPieChartInstance) topCategoriesPieChartInstance.destroy();
 
-        dailyChartInstance = new Chart(ctx, {
-            type: 'line',
+        // Take top 6 categories to avoid overcrowding
+        const dataCategories = topCategories.slice(0, 6);
+
+        topCategoriesPieChartInstance = new Chart(ctx, {
+            type: 'pie',
             data: {
-                labels: dailySubmissions.map(function (item) { return item.date; }),
+                labels: dataCategories.map(function (item) { return item.category; }),
                 datasets: [{
-                    label: 'Submissions',
-                    data: dailySubmissions.map(function (item) { return item.count; }),
-                    borderColor: '#C0111F',
-                    backgroundColor: 'rgba(192,17,31,0.1)',
-                    fill: true,
-                    tension: 0.3,
-                    pointBackgroundColor: '#C0111F',
-                    pointRadius: 3
+                    data: dataCategories.map(function (item) { return item.count; }),
+                    backgroundColor: [
+                        '#C0111F', '#4F46E5', '#10B981', '#F59E0B', '#8B5CF6', '#EC4899'
+                    ],
+                    borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
                 plugins: {
-                    legend: { display: false }
-                },
-                scales: {
-                    x: {
-                        grid: { color: '#f0f0f0' },
-                        ticks: { font: { family: 'Satoshi' }, maxTicksLimit: 15 }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        grid: { color: '#f0f0f0' },
-                        ticks: { font: { family: 'Satoshi' } }
+                    legend: {
+                        position: 'right',
+                        labels: { font: { family: 'Satoshi' } }
                     }
                 }
             }
         });
     }
+
 
     // --------------------------------------------------------
     // Top Categories Table
@@ -254,7 +247,7 @@
                     + '<td class="px-4 py-3 text-sm" style="color: #374151;">' + escapeHtml(nom.email || '--') + '</td>'
                     + '<td class="px-4 py-3 text-sm" style="color: #6b7280; white-space: nowrap;">' + formatDate(nom.submitted_at || nom.createdAt || nom.created_at) + '</td>'
                     + '<td class="px-4 py-3 text-sm">'
-                    + '<button onclick="deleteNomination(' + nom.id + ')" class="text-white px-2 py-1 rounded text-xs transition-colors" style="background-color: #C0111F;" onmouseover="this.style.backgroundColor=\'#8B0000\'" onmouseout="this.style.backgroundColor=\'#C0111F\'">Delete</button>'
+                    + '<button onclick="deleteNomination(' + nom.id + ')" class="text-white px-2 py-1 rounded text-xs transition-colors" style="background-color: #C0111F;" onmouseover="this.style.backgroundColor=\'#8B0000\'" onmouseout="this.style.backgroundColor=\'#C0111F\'">Remove</button>'
                     + '</td>'
                     + '</tr>';
             });
