@@ -153,6 +153,7 @@
 
         topCategoriesPieChartInstance = new Chart(ctx, {
             type: 'pie',
+            plugins: [window.ChartDataLabels],
             data: {
                 labels: dataCategories.map(function (item) { return item.category; }),
                 datasets: [{
@@ -169,6 +170,21 @@
                     legend: {
                         position: 'right',
                         labels: { font: { family: 'Satoshi' } }
+                    },
+                    datalabels: {
+                        formatter: function(value, context) {
+                            var dataset = context.chart.data.datasets[0];
+                            var total = dataset.data.reduce(function(prev, curr) { return prev + curr; }, 0);
+                            if (total === 0) return '0%';
+                            var pct = ((value / total) * 100).toFixed(1) + "%";
+                            return pct;
+                        },
+                        color: '#fff',
+                        font: {
+                            weight: 'bold',
+                            family: 'Satoshi',
+                            size: 12
+                        }
                     }
                 }
             }
